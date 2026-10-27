@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -434,7 +433,7 @@ footer {
       <p class="hint">
         <span style="color:#b9a7ff">●</span>
         Chỉ chấp nhận HTTPS và đúng tên miền
-        <b>auth.platoreplay.com</b>.
+        <b>auth.platorelay.com</b>.
         Phần đường dẫn phía sau có thể khác nhau.
       </p>
       <button class="primary" id="bypassBtn" type="submit">
@@ -509,7 +508,7 @@ function isValidDeltaUrl(value) {
 
     return (
       url.protocol === "https:" &&
-      url.hostname === "auth.platoreplay.com" &&
+      url.hostname === "auth.platorelay.com" &&
       url.port === "" &&
       url.username === "" &&
       url.password === "" &&
@@ -531,7 +530,7 @@ form.addEventListener("submit", function(event) {
   if (!value || !isValidDeltaUrl(value)) {
     showStatus(
       "✕ ERROR LINK: URL không đúng định dạng yêu cầu. " +
-      "Hãy kiểm tra HTTPS, tên miền auth.platoreplay.com " +
+      "Hãy kiểm tra HTTPS, tên miền auth.platorelay.com " +
       "và đường dẫn phía sau.",
       "error"
     );
@@ -564,5 +563,4 @@ copyBtn.addEventListener("click", async function() {
 });
 </script>
 </body>
-  </html>
-        
+</html>
