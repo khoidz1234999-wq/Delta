@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b18">
+<title>Delta Key Resolver | Khoidz Overflow</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #090b18;
+  --panel: rgba(20, 24, 48, .74);
+  --line: rgba(160, 170, 255, .17);
+  --purple: #9b7bff;
+  --cyan: #5de7ff;
+  --text: #f4f4ff;
+  --muted: #969dbd;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before, body::after {
+  content: "";
+  position: fixed;
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: .22;
+  pointer-events: none;
+  z-index: -1;
+  animation: float 9s ease-in-out infinite alternate;
+}
+
+body::before {
+  background: #7449ff;
+  top: -100px;
+  left: -100px;
+}
+
+body::after {
+  background: #00d9ff;
+  right: -120px;
+  bottom: -100px;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  to { transform: translate(60px, 50px) scale(1.15); }
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+header {
+  max-width: 1050px;
+  margin: auto;
+  padding: 24px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -.5px;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255,255,255,.23);
+  border-radius: 14px;
+  background: linear-gradient(135deg,#9876ff,#5346c8 60%,#312b68);
+  box-shadow: 0 0 28px #8564ff36;
+  font-size: 20px;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.pill {
+  border: 1px solid #55e6ba36;
+  color: #72f3c5;
+  background: #48e9b40d;
+  border-radius: 30px;
+  padding: 8px 11px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+main {
+  max-width: 700px;
+  padding: 48px 18px 35px;
+  margin: auto;
+}
+
+.hero { text-align: center; margin-bottom: 32px; }
+
+.tag {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  background: #ffffff08;
+  border-radius: 30px;
+  color: #c2b4ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(34px, 8vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 23px 0 15px;
+}
+
+.gradient {
+  background: linear-gradient(100deg,#b5a0ff,#6eeaff 75%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  max-width: 480px;
+  margin: auto;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 25px 90px #0004;
+}
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 23px;
+}
+
+.card-title h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.card-title p {
+  margin: 7px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.step {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 7px 10px;
+  color: #c7baff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.input-wrap { position: relative; }
+
+input {
+  display: block;
+  width: 100%;
+  min-height: 54px;
+  border-radius: 13px;
+  border: 1px solid #777bbd42;
+  outline: none;
+  padding: 15px;
+  color: white;
+  background: #080b19a8;
+  font-family: inherit;
+  font-size: 12px;
+  transition: .25s;
+}
+
+input::placeholder { color: #737b9b; }
+
+input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px #9876ff17;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  margin: 10px 0 20px;
+  overflow-wrap: anywhere;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform .2s, opacity .2s, border-color .2s;
+}
+
+button:active { transform: scale(.98); }
+
+.primary {
+  width: 100%;
+  min-height: 53px;
+  border: 0;
+  border-radius: 13px;
+  color: #111326;
+  background: linear-gradient(100deg,#b4a0ff,#75eaff);
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 8px 28px #8e7aff20;
+}
+
+.primary:hover { opacity: .9; }
+
+.primary:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.status {
+  display: none;
+  margin-top: 17px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  background: #080b1990;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.status.show { display: block; }
+.status.error { color: #ff929f; border-color: #ff7e923b; }
+.status.info { color: #b8ccff; }
+.status.success { color: #73f1c1; }
+
+.output {
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  background: #080b1980;
+  border-radius: 16px;
+  padding: 17px;
+}
+
+.output-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.output-head strong { font-size: 12px; }
+
+.lock {
+  color: #b6a3ff;
+  font-size: 10px;
+}
+
+.keybox {
+  border: 1px dashed #8b80bb52;
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 51px;
+  color: #8e96b7;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+.copy {
+  width: 100%;
+  min-height: 43px;
+  margin-top: 12px;
+  border: 1px solid #a99aff40;
+  background: #9278ff12;
+  color: #c9bcff;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.copy:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin-top: 17px;
+}
+
+.feature {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 14px 10px;
+  background: #ffffff05;
+}
+
+.feature b {
+  display: block;
+  font-size: 11px;
+  margin: 8px 0 5px;
+}
+
+.feature span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.feature .emoji { font-size: 18px; }
+
+.notice {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #e6c36d30;
+  border-radius: 13px;
+  background: #e6c36d08;
+  color: #d9cba6;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+footer {
+  text-align: center;
+  color: #737b9a;
+  font-size: 10px;
+  padding: 25px 15px 35px;
+  line-height: 1.9;
+}
+
+@media (max-width: 480px) {
+  main { padding-top: 35px; }
+  .card { padding: 19px; border-radius: 20px; }
+  .features { gap: 7px; }
+  .feature { padding: 12px 8px; }
+  .brand { font-size: 12px; }
+  .pill { font-size: 9px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">Δ</div>
+    <div>
+      DELTA RESOLVER
+      <small>KHOIDZ OVERFLOW</small>
+    </div>
+  </div>
+  <div class="pill">● INTERFACE ONLINE</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="tag">✦ SMART LINK VALIDATOR</div>
+    <h1>DELTA KEY<br><span class="gradient">RESOLVER</span></h1>
+    <p class="subtitle">
+      Kiểm tra định dạng liên kết Delta, hiển thị trạng thái
+      xác thực và quản lý key trong một giao diện hiện đại.
+    </p>
+  </section>
+
+  <section class="card">
+    <div class="card-title">
+      <div>
+        <h2>Link Verification</h2>
+        <p>Nhập liên kết để kiểm tra</p>
+      </div>
+      <div class="step">STEP 01 / 02</div>
+    </div>
+
+    <form id="resolverForm">
+      <label for="link">DELTA GET KEY URL</label>
+      <div class="input-wrap">
+        <input
+          id="link"
+          type="url"
+          placeholder="https://auth.platoreplay.com/..."
+          autocomplete="url"
+          spellcheck="false"
+          required
+        >
+      </div>
+      <p class="hint">
+        <span style="color:#b9a7ff">●</span>
+        Chỉ chấp nhận HTTPS và đúng tên miền
+        <b>auth.platoreplay.com</b>.
+        Phần đường dẫn phía sau có thể khác nhau.
+      </p>
+      <button class="primary" id="bypassBtn" type="submit">
+        ✦ &nbsp; BYPASS / VERIFY LINK
+      </button>
+    </form>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <div class="output">
+      <div class="output-head">
+        <strong>KEY OUTPUT</strong>
+        <span class="lock">◈ SECURE OUTPUT</span>
+      </div>
+      <div id="keyOutput" class="keybox">
+        Key sẽ hiển thị tại đây khi được xác thực từ dịch vụ hợp lệ.
+      </div>
+      <button id="copyBtn" class="copy" type="button" disabled>
+        ▢ &nbsp; SAO CHÉP KEY
+      </button>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <div class="emoji">⌕</div>
+      <b>Link Check</b>
+      <span>Kiểm tra domain và đường dẫn.</span>
+    </div>
+    <div class="feature">
+      <div class="emoji">◈</div>
+      <b>Safe Mode</b>
+      <span>Không gửi link đến máy chủ lạ.</span>
+    </div>
+    <div class="feature">
+      <div class="emoji">⎘</div>
+      <b>Quick Copy</b>
+      <span>Sao chép kết quả khi có key.</span>
+    </div>
+  </section>
+
+  <div class="notice">
+    <b>ⓘ Lưu ý về xác thực</b><br>
+    Bản HTML này kiểm tra định dạng link ở phía trình duyệt.
+    Nó không tự vượt qua hệ thống Get Key và không thể tạo
+    ra key Delta thật nếu chưa kết nối với dịch vụ xác thực
+    hợp lệ. Link đúng định dạng không đồng nghĩa key đã được cấp.
+  </div>
+</main>
+
+<footer>
+  DELTA KEY RESOLVER · BY KHOIDZ OVERFLOW<br>
+  Glass Interface · Client-side Link Validation
+</footer>
+
+<script>
+const form = document.getElementById("resolverForm");
+const linkInput = document.getElementById("link");
+const statusBox = document.getElementById("status");
+const keyOutput = document.getElementById("keyOutput");
+const bypassBtn = document.getElementById("bypassBtn");
+const copyBtn = document.getElementById("copyBtn");
+
+function showStatus(message, type) {
+  statusBox.className = "status show " + type;
+  statusBox.textContent = message;
+}
+
+function isValidDeltaUrl(value) {
+  try {
+    const url = new URL(value.trim());
+
+    return (
+      url.protocol === "https:" &&
+      url.hostname === "auth.platoreplay.com" &&
+      url.port === "" &&
+      url.username === "" &&
+      url.password === "" &&
+      url.pathname.length > 1
+    );
+  } catch {
+    return false;
+  }
+}
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const value = linkInput.value.trim();
+
+  copyBtn.disabled = true;
+  keyOutput.textContent = "Chưa có key được xác thực.";
+
+  if (!value || !isValidDeltaUrl(value)) {
+    showStatus(
+      "✕ ERROR LINK: URL không đúng định dạng yêu cầu. " +
+      "Hãy kiểm tra HTTPS, tên miền auth.platoreplay.com " +
+      "và đường dẫn phía sau.",
+      "error"
+    );
+    return;
+  }
+
+  showStatus(
+    "✓ LINK FORMAT VALID — Đúng tên miền và định dạng. " +
+    "Đang ở chế độ kiểm tra mô phỏng. Trình duyệt chưa " +
+    "xác thực với máy chủ Delta nên chưa có key thật.",
+    "info"
+  );
+
+  keyOutput.textContent =
+    "Link hợp lệ về định dạng. Cần dịch vụ Delta cấp key thật.";
+});
+
+copyBtn.addEventListener("click", async function() {
+  if (copyBtn.disabled) return;
+
+  try {
+    await navigator.clipboard.writeText(keyOutput.textContent);
+    showStatus("Đã sao chép kết quả.", "success");
+  } catch {
+    showStatus(
+      "Không thể sao chép tự động. Hãy chọn và sao chép văn bản.",
+      "error"
+    );
+  }
+});
+</script>
+</body>
+  </html>
+        
